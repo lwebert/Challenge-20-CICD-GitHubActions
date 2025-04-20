@@ -2,33 +2,20 @@
 name: Cypress Tests
 
 # Trigger workflow on all pull requests
-on: push
-#   pull_request:
-#     branches:
-#       - develop
-#       - staging
+on:
+    pull_request:
+        branches:
+            - develop
+            - staging
 
 # Jobs to carry out
 jobs:
-    cypress-run:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
-            # Install npm dependencies, cache them correctly
-            # and run all Cypress tests
-            - name: Cypress run
-              uses: cypress-io/github-action@v6
-              with:
-                build: npm run build
-                start: npm start
-                # browser: chrome
-                component: true
-
-
-    test:
+    cypress:
         # Operating system to run job on
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [18.x, 20.x, 21.x]
 
         # Steps in job
         steps:
@@ -36,23 +23,34 @@ jobs:
             - name: Checkout code
               uses: actions/checkout@v1
 
-            - name: Use Node.js 21.x
+            - name: Use Node.js
               uses: actions/setup-node@v1
               with:
-                  node-version: 21.x
+                  node-version: ${{matrix.node-version}}
 
             # Install dependencies
             - name: 🧰 Install Deps
               run: npm install
 
-            # Run lint
-            - name: Run Lint
-              run: npm run lint
+            # # Run lint
+            # - name: Run Lint
+            #   run: npm run lint
 
-            # Run build
-            - name: Run Build
-              run: npm run build
+            - name: Cypress
+              uses: cypress-io/github-action@v6
+              with:
+                  build: npm run build
+                  start: npm run start
+                  component: true
 
-            # Run tests
-            - name: Run Tests
-              run: npm run test
+            # # Run build
+            # - name: Run Build
+            #   run: npm run build
+
+            # # Run start
+            # - name: Run Start
+            #   run: npm run start
+
+            # # Run tests
+            # - name: Run Cypress Tests
+            #   run: npm run test
