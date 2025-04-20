@@ -10,7 +10,7 @@ on:
 
 # Jobs to carry out
 jobs:
-    cypress:
+    cypress-run:
         # Operating system to run job on
         runs-on: ubuntu-latest
         strategy:
@@ -32,25 +32,10 @@ jobs:
             - name: 🧰 Install Deps
               run: npm install
 
-            # # Run lint
-            # - name: Run Lint
-            #   run: npm run lint
-
+            # Run Cypress component tests (testing for 3 node versions?)
             - name: Cypress
               uses: cypress-io/github-action@v6
               with:
                   build: npm run build
                   start: npm run start
                   component: true
-
-            # # Run build
-            # - name: Run Build
-            #   run: npm run build
-
-            # # Run start
-            # - name: Run Start
-            #   run: npm run start
-
-            # # Run tests
-            # - name: Run Cypress Tests
-            #   run: npm run test
