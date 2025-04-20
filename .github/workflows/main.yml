@@ -1,5 +1,5 @@
 # Name of workflow
-name: Lint and Test workflow
+name: Cypress Tests
 
 # Trigger workflow on all pull requests
 on:
@@ -19,7 +19,16 @@ jobs:
             # Get code from repo
             - name: Checkout code
               uses: actions/checkout@v1
+        # Steps in job
+        steps:
+            # Get code from repo
+            - name: Checkout code
+              uses: actions/checkout@v1
 
+            - name: Use Node.js 21.x
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 21.x
             - name: Use Node.js 21.x
               uses: actions/setup-node@v1
               with:
@@ -41,6 +50,9 @@ jobs:
                   matrix:
                       node-version: [18.x 20.x 21.x]
 
+            # Run build
+            - name: Run Build
+              run: npm run build
             # Run build
             - name: Run Build
               run: npm run build
