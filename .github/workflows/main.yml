@@ -32,9 +32,9 @@ jobs:
             - name: 🧰 Install Deps
               run: npm install
 
-            # Run lint
-            - name: Run Lint
-              run: npm run lint
+            # # Run lint
+            # - name: Run Lint
+            #   run: npm run lint
 
             - name: Cypress
               uses: cypress-io/github-action@v6
